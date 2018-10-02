@@ -67,7 +67,7 @@ public class MultiplicationControllerTest {
 		given(multiplicationService.checkAttempt(any(MultiplicationResultAttempt.class))).willReturn(true);
 		User user = new User ("James Ni");
 		Multiplication multiplication = new Multiplication(50,70);
-		MultiplicationResultAttempt attempt = new MultiplicationResultAttempt(user, multiplication,3500);
+		MultiplicationResultAttempt attempt = new MultiplicationResultAttempt(user, multiplication,3500,false);
 
 		//when
 		MockHttpServletResponse response = mvc.perform(post("/multiplication/result").contentType(MediaType.APPLICATION_JSON).content(jsonAttempt.write(attempt).getJson())).andReturn().getResponse();

@@ -19,12 +19,12 @@ public class MultiplicationServiceImpl implements MultiplicationService {
 	public Multiplication createRandomMultiplication() {
 		int factorA = randomGeneratorService.generateRandomFactor();
 		int factorB = randomGeneratorService.generateRandomFactor();
-		return new Multiplication(factorA,factorB);
+		return new Multiplication(factorA, factorB);
 	}
 
 	@Override
 	public boolean checkAttempt(final MultiplicationResultAttempt resultAttempt) {
-		return resultAttempt.getMultiplication().getFactorA()*resultAttempt.getMultiplication().getFactorB()== resultAttempt.getResultAttempt();
+		return resultAttempt.getMultiplication().getFactorA() * resultAttempt.getMultiplication().getFactorB() == resultAttempt.getResultAttempt();
 	}
 
 
