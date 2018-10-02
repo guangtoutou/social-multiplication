@@ -51,14 +51,14 @@ public class MultiplicationControllerTest {
 	@Test
 	public void getRandomMultiplicationTest() throws Exception {
 		//given
-		given(multiplicationService.createRandomMultiplication()).willReturn(new Multiplication(70, 20, 1400));
+		given(multiplicationService.createRandomMultiplication()).willReturn(new Multiplication(70, 20));
 
 		//when
 		MockHttpServletResponse response = mvc.perform(get("/multiplication/random").accept(MediaType.APPLICATION_JSON)).andReturn().getResponse();
 
 		//then
 		assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
-		assertThat(response.getContentAsString()).isEqualTo(json.write(new Multiplication(70, 20, 1400)).getJson());
+		assertThat(response.getContentAsString()).isEqualTo(json.write(new Multiplication(70, 20)).getJson());
 	}
 
 	@Test
@@ -66,7 +66,7 @@ public class MultiplicationControllerTest {
 		//given
 		given(multiplicationService.checkAttempt(any(MultiplicationResultAttempt.class))).willReturn(true);
 		User user = new User ("James Ni");
-		Multiplication multiplication = new Multiplication(50,70,3500);
+		Multiplication multiplication = new Multiplication(50,70);
 		MultiplicationResultAttempt attempt = new MultiplicationResultAttempt(user, multiplication,3500);
 
 		//when

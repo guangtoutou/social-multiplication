@@ -36,13 +36,12 @@ public class MulplicationServiceTest {
 
 		assertThat(multiplication.getFactorA()).isEqualTo(50);
 		assertThat(multiplication.getFactorB()).isEqualTo(30);
-		assertThat(multiplication.getResult()).isEqualTo(1500);
 	}
 
 	@Test
 	public void checkCorrectAttemptTest(){
 		//given
-		Multiplication multiplication = new Multiplication(50,60,3000);
+		Multiplication multiplication = new Multiplication(50,60);
 		User user = new User("James Ni");
 		MultiplicationResultAttempt attempt = new MultiplicationResultAttempt(user, multiplication,3000);
 
@@ -56,7 +55,7 @@ public class MulplicationServiceTest {
 	@Test
 	public void checkWrongAttemptTest(){
 		//given
-		Multiplication multiplication = new Multiplication(50,60,3000);
+		Multiplication multiplication = new Multiplication(50,60);
 		User user = new User("James Ni");
 		MultiplicationResultAttempt attempt = new MultiplicationResultAttempt(user, multiplication,2400);
 
