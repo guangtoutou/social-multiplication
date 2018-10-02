@@ -8,6 +8,7 @@ import microservices.book.multiplicationservice.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -45,6 +46,11 @@ public class MultiplicationServiceImpl implements MultiplicationService {
 
 		attemptRepository.save(response);
 		return isCorrect;
+	}
+
+	@Override
+	public List<MultiplicationResultAttempt> getStatsForUser(String userAlias) {
+		return attemptRepository.findTop5ByUserAliasOrderByIdDesc(userAlias);
 	}
 
 

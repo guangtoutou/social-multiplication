@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RequestMapping("/multiplication")
 @RestController
 public class MutiplicationController {
@@ -29,6 +31,11 @@ public class MutiplicationController {
 	@PostMapping("/result")
 	ResponseEntity<ResultResponse> attemptMultiplication(@RequestBody MultiplicationResultAttempt attempt) {
 		return ResponseEntity.ok(new ResultResponse(multiplicationService.checkAttempt(attempt)));
+	}
+
+	@GetMapping("/result")
+	ResponseEntity<List<MultiplicationResultAttempt>> getStat(@RequestParam("alias") String alias){
+		return ResponseEntity.ok(multiplicationService.getStatsForUser(alias));
 	}
 
 	@RequiredArgsConstructor
