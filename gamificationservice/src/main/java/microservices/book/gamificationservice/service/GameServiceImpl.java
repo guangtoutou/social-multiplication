@@ -5,6 +5,7 @@ import microservices.book.gamificationservice.domain.*;
 import microservices.book.gamificationservice.repository.BadgeCardRepository;
 import microservices.book.gamificationservice.repository.ScoreCardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -48,7 +49,8 @@ public class GameServiceImpl implements GameService {
 
 	@Override
 	public List<LeaderBoardRow> getCurrentLeaderBoard() {
-		return scoreCardRepository.findFirst10();
+		//get Top 3 users
+		return scoreCardRepository.findLeaders(PageRequest.of(0,3));
 	}
 
 	/*Checks the total score and the different score cards obtained to give new badges in case their conditions are met
