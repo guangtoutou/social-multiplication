@@ -3,11 +3,14 @@ package microservices.book.multiplicationservice.service;
 import microservices.book.multiplicationservice.domain.Multiplication;
 import microservices.book.multiplicationservice.domain.MultiplicationResultAttempt;
 import microservices.book.multiplicationservice.domain.User;
+import microservices.book.multiplicationservice.event.EventDispatcher;
+import microservices.book.multiplicationservice.event.MultiplicationSolvedEvent;
 import microservices.book.multiplicationservice.repository.MultiplicationResultAttemptRepository;
 import microservices.book.multiplicationservice.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,12 +20,14 @@ public class MultiplicationServiceImpl implements MultiplicationService {
 	private RandomGeneratorService randomGeneratorService;
 	private UserRepository userRepository;
 	private MultiplicationResultAttemptRepository attemptRepository;
+	private EventDispatcher eventDispatcher;
 
 	@Autowired
-	public MultiplicationServiceImpl(RandomGeneratorService randomGeneratorService, UserRepository userRepository, MultiplicationResultAttemptRepository attemptRepository) {
+	public MultiplicationServiceImpl(RandomGeneratorService randomGeneratorService, UserRepository userRepository, MultiplicationResultAttemptRepository attemptRepository, EventDispatcher eventDispatcher) {
 		this.randomGeneratorService = randomGeneratorService;
 		this.userRepository = userRepository;
 		this.attemptRepository = attemptRepository;
+		this.eventDispatcher = eventDispatcher;
 	}
 
 	@Override
@@ -32,6 +37,7 @@ public class MultiplicationServiceImpl implements MultiplicationService {
 		return new Multiplication(factorA, factorB);
 	}
 
+	@Transactional
 	@Override
 	public boolean checkAttempt(final MultiplicationResultAttempt attemptMultiplication) {
 		int factorA = attemptMultiplication.getMultiplication().getFactorA();
@@ -45,6 +51,9 @@ public class MultiplicationServiceImpl implements MultiplicationService {
 		MultiplicationResultAttempt response = new MultiplicationResultAttempt(user.orElse(attemptMultiplication.getUser()), attemptMultiplication.getMultiplication(),attempt,isCorrect);
 
 		attemptRepository.save(response);
+
+		eventDispatcher.send(new MultiplicationSolvedEvent(response.getId(),response.getUser().getId(),response.isCorrect()));
+
 		return isCorrect;
 	}
 
