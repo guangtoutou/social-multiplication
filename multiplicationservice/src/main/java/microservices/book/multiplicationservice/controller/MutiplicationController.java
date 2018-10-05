@@ -34,8 +34,13 @@ public class MutiplicationController {
 	}
 
 	@GetMapping("/result")
-	ResponseEntity<List<MultiplicationResultAttempt>> getStat(@RequestParam("alias") String alias){
+	ResponseEntity<List<MultiplicationResultAttempt>> getStat(@RequestParam("alias") String alias) {
 		return ResponseEntity.ok(multiplicationService.getStatsForUser(alias));
+	}
+
+	@GetMapping("/result/{resultId}")
+	ResponseEntity<MultiplicationResultAttempt> getAttempt(@PathVariable("resultId") Long resultId) {
+		return ResponseEntity.ok(multiplicationService.getResultById(resultId));
 	}
 
 	@RequiredArgsConstructor
